@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sign in · Addendum-Stockline</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%236b2d5c'/%3E%3Cpath d='M5 16l4-4 3 3 7-7' stroke='white' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+  /* Layout: ink brand panel left (the "runway" motif from the app), form right; stacks on phones. */
+  html, body { height: 100%; margin: 0; }
+  [hidden] { display: none !important; }
+  .auth { min-height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+  .brandside { background: var(--side); color: var(--side-ink); padding: 48px 56px; display: flex; flex-direction: column; gap: 28px; justify-content: space-between; }
+  .brandside .mark { font-family: var(--f-display); font-size: 30px; letter-spacing: .01em; }
+  .brandside .mark img { display: block; width: 56px; height: 56px; object-fit: contain; border-radius: 10px; background: rgba(255,255,255,.06); padding: 4px; margin-bottom: 14px; }
+  .brandside .mark small { display: block; font-family: var(--f-body); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--side-dim); margin-top: 4px; }
+  .pitch { display: flex; flex-direction: column; gap: 22px; max-width: 420px; }
+  .pitch h1 { font-family: var(--f-display); font-weight: 400; font-size: 34px; line-height: 1.15; margin: 0; text-wrap: balance; }
+  .lanes { display: flex; flex-direction: column; gap: 12px; }
+  .lane { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; align-items: center; font-size: 12px; color: var(--side-dim); }
+  .lane .tr { position: relative; height: 14px; background: var(--side-hover); border-radius: 3px; overflow: hidden; }
+  .lane .f { position: absolute; inset: 0 auto 0 0; border-radius: 3px; }
+  .lane .ld { position: absolute; top: 2px; bottom: 2px; left: 0; border: 1.5px dashed var(--side-dim); border-radius: 3px; }
+  .lane .tk { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--side-ink); }
+  .qs { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--side-ink); }
+  .qs span { display: inline-flex; gap: 6px; align-items: baseline; }
+  .qs b { font-family: var(--f-display); font-weight: 400; color: var(--side-dim); }
+  .foot { font-size: 12px; color: var(--side-dim); }
+  .formside { display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--bg); }
+  .panel { width: min(400px, 100%); display: flex; flex-direction: column; gap: 18px; }
+  .panel section { display: flex; flex-direction: column; gap: 12px; }
+  .panel h2 { font-family: var(--f-display); font-weight: 400; font-size: 28px; margin: 0; }
+  .panel p.lead { margin: 0; color: var(--ink-2); }
+  form { display: flex; flex-direction: column; gap: 14px; }
+  form .field input { width: 100%; padding: 10px 12px; font-size: 15px; }
+  .pwwrap { position: relative; }
+  .pwwrap button { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: var(--ink-2); font-size: 12px; font-weight: 600; cursor: pointer; padding: 6px 8px; }
+  .submit { justify-content: center; padding: 11px 14px; font-size: 14px; }
+  .err { background: var(--now-soft); color: var(--ink); border-radius: var(--r-sm); padding: 10px 12px; font-size: 13px; }
+  .hint { font-size: 12.5px; color: var(--ink-3); }
+  .meter2 { height: 4px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+  .meter2 span { display: block; height: 100%; width: 0; transition: width .2s; }
+  @media (max-width: 860px) {
+    .auth { grid-template-columns: minmax(0, 1fr); }
+    .brandside { padding: calc(28px + env(safe-area-inset-top, 0px)) 20px 28px; gap: 18px; }
+    .pitch h1 { font-size: 24px; }
+    .lanes, .foot { display: none; }
+    .formside { align-items: flex-start; padding: 28px 16px 40px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .meter2 span { transition: none; } }
+</style>
+</head>
+<body>
+<div class="auth">
+  <aside class="brandside">
+    <div class="mark" id="brand"><img id="brandLogo" alt="" hidden><span id="appName">Addendum-Stockline</span><small id="storeName">Inventory planning</small></div>
+    <div class="pitch">
+      <h1>Know what to order before you run out.</h1>
+      <div class="lanes" aria-hidden="true">
+        <div class="lane"><span>Redefined Weft 22"</span><div class="tr"><div class="f" style="width:28%;background:var(--now)"></div><div class="ld" style="width:42%"></div><div class="tk" style="left:0"></div></div></div>
+        <div class="lane"><span>K-Tips 18"</span><div class="tr"><div class="f" style="width:64%;background:var(--soon)"></div><div class="ld" style="width:47%"></div><div class="tk" style="left:17%"></div></div></div>
+        <div class="lane"><span>Clip-Ins 18"</span><div class="tr"><div class="f" style="width:88%;background:var(--ok)"></div><div class="ld" style="width:23%"></div><div class="tk" style="left:65%"></div></div></div>
+      </div>
+      <div class="qs"><span><b>1</b>What to order</span><span><b>2</b>How much</span><span><b>3</b>By when</span></div>
+    </div>
+    <div class="foot">Stock bar · dashed box is lead time · tick is the order-by date</div>
+  </aside>
+  <main class="formside">
+    <div class="panel">
+      <div id="loading" class="hint">Loading…</div>
+
+      <section id="signin" hidden>
+        <h2>Sign in</h2>
+        <p class="lead">Use the email and password your admin set up for you.</p>
+        <form id="f-signin" novalidate>
+          <div id="e-signin" class="err" role="alert" hidden></div>
+          <label class="field"><span>Email</span><input id="si-email" type="email" autocomplete="username" required></label>
+          <label class="field"><span>Password</span><div class="pwwrap"><input id="si-pw" type="password" autocomplete="current-password" required><button type="button" data-show="si-pw">Show</button></div></label>
+          <label class="check"><input id="si-remember" type="checkbox" checked> Keep me signed in for 30 days</label>
+          <button class="btn primary submit" type="submit" id="si-go">Sign in</button>
+          <p class="hint">Forgot your password? Ask an admin to reset it, or run <code>npm run reset-password -- you@example.com</code> on the computer running the app.</p>
+        </form>
+      </section>
+
+      <section id="setup" hidden>
+        <h2>Create the owner account</h2>
+        <p class="lead">This is the first sign-in for this app. The owner can add the rest of the team and connect stores.</p>
+        <form id="f-setup" novalidate>
+          <div id="e-setup" class="err" role="alert" hidden></div>
+          <label class="field"><span>Your name</span><input id="su-name" type="text" autocomplete="name" required></label>
+          <label class="field"><span>Email</span><input id="su-email" type="email" autocomplete="username" required></label>
+          <label class="field"><span>Password</span><div class="pwwrap"><input id="su-pw" type="password" autocomplete="new-password" required><button type="button" data-show="su-pw">Show</button></div></label>
+          <div class="meter2"><span id="su-meter"></span></div>
+          <p class="hint" id="su-hint">At least 10 characters. A short phrase is easiest to remember.</p>
+          <button class="btn primary submit" type="submit">Create account and continue</button>
+        </form>
+      </section>
+
+      <section id="change" hidden>
+        <h2>Choose your password</h2>
+        <p class="lead" id="ch-lead">You signed in with a temporary password. Pick your own to continue.</p>
+        <form id="f-change" novalidate>
+          <div id="e-change" class="err" role="alert" hidden></div>
+          <label class="field"><span>New password</span><div class="pwwrap"><input id="ch-pw" type="password" autocomplete="new-password" required><button type="button" data-show="ch-pw">Show</button></div></label>
+          <label class="field"><span>Type it again</span><input id="ch-pw2" type="password" autocomplete="new-password" required></label>
+          <p class="hint">At least 10 characters.</p>
+          <button class="btn primary submit" type="submit">Save and continue</button>
+        </form>
+      </section>
+    </div>
+  </main>
+</div>
+<script src="/js/brand.js"></script>
+<script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# Shopify app configuration for Addendum-Stockline.
+# `shopify app config link` fills in client_id from the app you create in the Dev Dashboard,
+# then `shopify app deploy` pushes these settings to Shopify.
+
+client_id = "PASTE-YOUR-CLIENT-ID"
+name = "Addendum-Stockline"
+# Your hosted URL (see README → "Host it"). During `shopify app dev` the CLI uses a tunnel instead.
+application_url = "https://stockline.example.com/app"
+embedded = true
+
+[access_scopes]
+# read_* : products, inventory and order history for forecasting. Salon usage never writes to Shopify.
+scopes = "read_products,read_inventory,write_inventory,read_orders,read_all_orders"
+
+[auth]
+redirect_urls = [ "https://stockline.example.com/auth/callback" ]
+
+[webhooks]
+api_version = "2026-10"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+  uri = "/webhooks"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true

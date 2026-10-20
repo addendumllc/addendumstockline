@@ -1,0 +1,20 @@
+# One-click hosting on Render (render.com → New → Blueprint → pick this repo).
+services:
+  - type: web
+    name: addendum-stockline
+    runtime: docker
+    plan: starter            # needs a paid plan for the persistent disk
+    healthCheckPath: /healthz
+    disk:
+      name: stockline-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: SHOPIFY_API_KEY
+        sync: false          # client ID from the Dev Dashboard
+      - key: SHOPIFY_API_SECRET
+        sync: false          # client secret from the Dev Dashboard
+      - key: APP_URL
+        sync: false          # e.g. https://addendum-stockline.onrender.com
+      - key: ALLOWED_SHOPS
+        sync: false          # optional: comma-separated myshopify.com domains

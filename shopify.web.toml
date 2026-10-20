@@ -1,0 +1,6 @@
+# Tells Shopify CLI how to run Addendum-Stockline during `shopify app dev`.
+roles = ["frontend", "backend"]
+webhooks_path = "/webhooks"
+
+[commands]
+dev = "npm run dev"
